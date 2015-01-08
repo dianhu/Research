@@ -14,10 +14,23 @@
  * 
  **********************************************************************************/
 public class ExcelSheetColumnTitle {
+
 	public String convertToTitle(int n) {
-		return n==0 ? "" : convertToTitle(--n/26)+(char)('A'+(n % 26));
+		return n == 0 ? "" : convertToTitle(--n / 26) + (char) ('A' + (n % 26));
 	}
+
+	public int convertToInt(String str) {
+		int result = 0;
+		for (int i = 0; i < str.length(); i++) {
+			result = result*26+str.toUpperCase().charAt(i) - 'A' + 1;
+		}
+		return result;
+	}
+
 	public static void main(String[] args) {
-		System.out.println(new ExcelSheetColumnTitle().convertToTitle(1));
+
+		System.out.println(new ExcelSheetColumnTitle().convertToTitle(731));
+
+		System.out.println(new ExcelSheetColumnTitle().convertToInt("ABC"));
 	}
 }
