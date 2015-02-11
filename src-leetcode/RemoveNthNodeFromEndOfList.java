@@ -43,10 +43,31 @@ public class RemoveNthNodeFromEndOfList {
 		
 		return lns.size()>0?lns.get(0):null;
 	}
+	//主要是找到移除节点的前一几点，然后把前一节点的next设置为移除节点的next
+	//采用两个节点同时移的方法，找前一节点。
+	public ListNode removeNthFromEndNoList(ListNode head, int n) {
+		ListNode faster = head;
+		ListNode slower = head;
+		//把倒数的节点设置为faster节点
+		while(n>0&&faster.next!=null){
+			faster=faster.next;
+			n--;
+		}
+		
+		while(faster.next!=null){
+			faster=faster.next;
+			slower=slower.next;
+		}
+		slower.next=slower.next.next;
+		return head;
+	}
 	public static void main(String[] args) {
 		RemoveNthNodeFromEndOfList obj = new RemoveNthNodeFromEndOfList();
-		ListNode head = obj.removeNthFromEnd(obj.node1,5);
+		ListNode head = obj.removeNthFromEnd(obj.node1,2);
+		//ListNode head1 = obj.removeNthFromEndNoList(obj.node1,3);
 		System.out.println(head.val+"->"+head.next.val+"->"+head.next.next.val+"->"
 		+head.next.next.next.val);
+		//System.out.println(head1.val+"->"+head1.next.val+"->"+head1.next.next.val+"->"
+				//+head1.next.next.next.val);
 	}
 }
