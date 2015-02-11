@@ -10,6 +10,7 @@
 *             
 **********************************************************************************/
 public class ReverseInteger {
+	//use StringBuffer
 	 public int reverse(int x){
 		String s = String.valueOf(Math.abs(x));
 		StringBuffer rs= new StringBuffer();
@@ -23,6 +24,7 @@ public class ReverseInteger {
 		}
 		
 	 }
+	 //use number local caculate
 	 public int reverse1(int x){
 		 int sum = 0;
 		 while(Math.abs(x)!=0){
