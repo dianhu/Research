@@ -19,7 +19,7 @@ public class LCSDemo {
 		System.out.println("substring1:" + new String(str1));
 		System.out.println("substring2:" + new String(str2));
 		
-		String lcs = new StringBuffer(getLCS(str1, str2)).reverse().toString();//需要反转一下
+		String lcs = getLCS(str1, str2);
 		
 		System.out.println("LCS:"+lcs);
 		System.out.println("LCS Length:"+lcs.length());
@@ -28,7 +28,7 @@ public class LCSDemo {
 	private static String getLCS(char[] str1, char[] str2) {
 		int strLength1 = str1.length;
 		int strLength2 = str2.length;
-		String rst="";
+		StringBuffer sb=new StringBuffer();
 
 		// 构造二维数组记录A[i]和B[j]的LCS的长度,并初始化边界值
 		int[][] opt = new int[strLength1 + 1][strLength2 + 1];
@@ -52,7 +52,7 @@ public class LCSDemo {
 		int i = strLength1, j = strLength2;
 		while (i !=0&&j!=0) {
 			if (str1[i-1] == str2[j-1]) {
-				rst+=str1[i-1]; 
+				sb.append(str1[i-1]); 
 				i--;
 				j--;
 			} else if (opt[i][j-1] >= opt[i-1][j])
@@ -60,7 +60,7 @@ public class LCSDemo {
 			else
 				i--;
 		}
-		return rst;
+		return sb.reverse().toString();
 	}
 
 	public static String getLCS(String str1, String str2) {
