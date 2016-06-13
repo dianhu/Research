@@ -1,8 +1,9 @@
 // Source :https://leetcode.com/problems/reverse-string/
+// Label: two pointer
 // Author : H.C.Y
 // Date   : 2016-06-12
 /**********************************************************************************
- *  
+ *
  *Write a function that takes a string as input and returns the string reversed.
  *
  *Example:

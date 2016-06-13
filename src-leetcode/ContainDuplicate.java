@@ -3,6 +3,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 // Source :https://leetcode.com/problems/contains-duplicate/
+// Label : find,hash
 // Author : H.C.Y
 // Date   : 2016-06-13
 /**********************************************************************************
