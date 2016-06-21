@@ -32,8 +32,8 @@ class BinarySearchWithComparator
     index = Collections.binarySearch(l, new User(10, null), c);
     System.out.println(index);    // Output: 0
 
-    index = Collections.binarySearch(l, new User(42, null), c);
-    System.out.println(index);    // Output: -4
+    index = Collections.binarySearch(l, new User(25, null), c);
+    System.out.println(index);    // Output: -3 -(insert point+1) insert point =2
                                   // See javadoc for meaning of return value.
   }
 }
