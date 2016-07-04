@@ -92,10 +92,11 @@ public class BinarySearchTree {
 				bst.setHead(test[i]);
 				continue;
 			}
+			//这个插入的开销有点大，而且是不平衡的，，，，
 			bst.insert(test[i]);
 		}
 		bst.midOrder();
-//		bst.preOrder();
-//		bst.postOrder();
+		bst.preOrder();
+		bst.postOrder();
 	}
 }
