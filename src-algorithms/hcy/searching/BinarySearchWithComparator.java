@@ -1,4 +1,4 @@
-package hcy.sorting;
+package hcy.searching;
 
 import java.util.*;
 
