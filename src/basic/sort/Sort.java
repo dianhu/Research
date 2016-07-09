@@ -54,7 +54,7 @@ public class Sort {
 	}
 	
 	/**
-	 * 选择排序
+	 * 选择排序(扑克牌排序)
 	 * 时间复杂度O(n²),((n+1)*n)/2,空间复杂度O(1)
 	 * 算法原理：先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，
 	 * 再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。
@@ -65,6 +65,19 @@ public class Sort {
 	public static int[] selectSort(int[] data){
 		if (null == data) return new int[0];
 		int[] rvl = Arrays.copyOf(data,data.length);
+		for(int i=0;i<rvl.length;i++){
+			int index = i;
+			for(int j=i+1;j<rvl.length;j++){
+				if(rvl[j]<rvl[index]){
+					index = j;
+				}
+			}
+			if(index!=i){
+				int temp = rvl[index];
+				rvl[index] = rvl[i];
+				rvl[i] = temp;
+			}
+		}
 		
 		return rvl;
 	}
@@ -101,6 +114,13 @@ public class Sort {
 		int[] rvl2 = insertSort(data);
 		for (int i = 0; i < rvl2.length; i++) {
 			System.out.printf("%2s", rvl2[i]);
+		}
+		System.out.println();
+		
+		System.out.println("--------------选择排序-------------");
+		int[] rvl3 = insertSort(data);
+		for (int i = 0; i < rvl3.length; i++) {
+			System.out.printf("%2s", rvl3[i]);
 		}
 		System.out.println();
 
