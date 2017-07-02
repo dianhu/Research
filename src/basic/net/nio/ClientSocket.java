@@ -2,32 +2,28 @@ package basic.net.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Time : 17-7-2 下午3:06
+ * Time : 17-7-2 下午9:38
  * Author : hcy
  * Description :
  */
-public class EchoServer {
-
-
+public class ClientSocket {
     public static void main(String[] args) {
-        ServerSocketChannel serverSocketChannel = null;
+        SocketChannel socketChannel = null;
         Selector selector = null;
         try {
-            serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.configureBlocking(false);//设置非阻塞模式
-
-            ServerSocket serverSocket = serverSocketChannel.socket();//得到ServerSocket
-            serverSocket.bind(new InetSocketAddress(9999));//绑定端口号
-
+            socketChannel = SocketChannel.open();
+            socketChannel.configureBlocking(false);//设置非阻塞模式
+            socketChannel.connect(new InetSocketAddress("localhost",9999));
             selector = Selector.open();
-            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);//注册到对应的selector和设置关注的事件
+            socketChannel.register(selector, SelectionKey.OP_CONNECT);//注册到对应的selector和设置关注的事件
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,25 +41,23 @@ public class EchoServer {
                 SelectionKey key = iter.next();
                 iter.remove();
                 try {
-                    if(key.isAcceptable()){
-                        ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
-                        SocketChannel socketChannel = serverChannel.accept();//获取与客户端对应的SocketChannel
-                        System.out.println("Accepted connection from "+socketChannel);
-                        socketChannel.configureBlocking(false);
-                        SelectionKey key1 = socketChannel.register(selector,SelectionKey.OP_READ | SelectionKey.OP_WRITE);
-                        key1.attach(ByteBuffer.allocate(100));
+                    if(key.isConnectable()){
+                        System.out.println("is connecting to remote server");
+                        SocketChannel channel = (SocketChannel) key.channel();
+                        if(channel.isConnectionPending()){
+                            channel.finishConnect();
+                            System.out.println("connected remote server");
+                        }
+                        channel.register(selector,SelectionKey.OP_READ | SelectionKey.OP_WRITE);
                     }
                     if(key.isReadable()){
-                        //System.out.println("监听到可以读取了...");
-                        SocketChannel socketChannel = (SocketChannel) key.channel();
                         ByteBuffer output = (ByteBuffer) key.attachment();
                         socketChannel.read(output);//读取echo的内容到output
-                        System.out.println(output.toString());
 
                     }
                     if(key.isWritable()){
-                        SocketChannel socketChannel = (SocketChannel) key.channel();
-                        ByteBuffer output = (ByteBuffer) key.attachment();
+                        ByteBuffer output = ByteBuffer.allocate(100);
+                        output.put("你好，我是hcy的手下".getBytes());
                         output.flip();
                         socketChannel.write(output);//把output的内容写到管道中
                         output.compact();
