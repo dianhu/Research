@@ -1,0 +1,27 @@
+总结：
+1.volatile使用场景
+1>利用可见性和顺序性作为开关控制或状态标记
+3>CAS中当前值保证可见性
+
+2.volatile和synchronized比较
+1>原子性
+volatile无法保证原子性
+synchronized通过互斥保证同步代码块的原子性
+2>可见性
+volatile 缓存值立即更新到主存，且通知其他cpu中的此缓存值失效，从主存重新加载
+synchronized通过排他且monitor exit时强制刷新缓存到主存，monitor enter从主存读取最新值到缓存保证可见
+3>有序性
+volatile 禁止jvm和处理器对volatile前后的指令重排序
+synchronized排他，串行从而保证最终有序
+
+3.synchronize实现原理，优点，缺点
+通过CAS更新Object mark word中的锁标志位实现
+优点：JVM在不断优化性能，天然支持可重入，能自动释放锁
+缺点：获取不了锁时一直阻塞不能超时中断，不可通过其他线程中断，不支持公平锁
+
+4.显示锁、synchronize、原子变量、unsafe性能对比
+
+5.cas底层实现原理
+http://www.cnblogs.com/nullllun/p/9039049.html
+
+6.wait、notify、join
