@@ -9,29 +9,22 @@ import java.lang.reflect.Proxy;
  * Author : hcy
  * Description :
  */
-public class JdkProxyCreator implements ProxyCreator,InvocationHandler {
+public class JdkProxyCreator implements ProxyCreator {
     private Object target;
-    public JdkProxyCreator(Object target){
+    private InvocationHandler invocationHandler;
+    public JdkProxyCreator(Object target,InvocationHandler handler){
         assert target != null;
         Class<?>[] interfaces = target.getClass().getInterfaces();
         if (interfaces.length == 0) {
             throw new IllegalArgumentException("target class don`t implement any interface");
         }
         this.target = target;
-    }
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println(System.currentTimeMillis() + " - " + method.getName() + " method start");
-        // 调用目标方法
-        Object retVal = method.invoke(target, args);
-        System.out.println(System.currentTimeMillis() + " - " + method.getName() + " method over");
-
-        return retVal;
+        this.invocationHandler = handler;
     }
 
     @Override
     public Object getProxy() {
         Class<?> clazz = target.getClass();
-        return Proxy.newProxyInstance(clazz.getClassLoader(),clazz.getInterfaces(),this);
+        return Proxy.newProxyInstance(clazz.getClassLoader(),clazz.getInterfaces(),this.invocationHandler);
     }
 }
