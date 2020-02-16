@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,6 +62,17 @@ public class ThreadPoolExecutorTest {
             System.out.println("work's thread: " + Thread.currentThread().getName());
             countDownLatch.countDown();
             throw new RuntimeException();
+        }));
+        countDownLatch.await();
+    }
+
+    @Test
+    public void testWhenLessThanCoreThreadsThenNewTaskWillCreateCore() throws InterruptedException {
+        service = Executors.newFixedThreadPool(10);
+        CountDownLatch countDownLatch = new CountDownLatch(10);
+        IntStream.range(0, 10).forEach(i -> service.execute(() -> {
+            System.out.println("work's thread: " + Thread.currentThread().getName());
+            countDownLatch.countDown();
         }));
         countDownLatch.await();
     }
