@@ -29,5 +29,17 @@ public class ScheduledThreadPoolTest {
             System.out.println(Thread.currentThread().getName() + " " + i + " run.... " + System.currentTimeMillis());
         }, 1000, 2000, TimeUnit.MILLISECONDS));
 
+
+        ScheduledExecutorService service1 = Executors.newScheduledThreadPool(1);
+        //固定频率，当任务运行时间超过间隔时间，就相当于没有延迟了
+        service1.scheduleAtFixedRate(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(" run.... " + System.currentTimeMillis());
+        }, 1000, 3000, TimeUnit.MILLISECONDS);
+
     }
 }
